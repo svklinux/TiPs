@@ -1,0 +1,20 @@
+KeyBoard-Interrupt Error During Package Installation On Centos 7
+=========================================================
+
+Sol====Edit grabber.py and find line 1510 where it currently says
+"elif errcode in (42, 55, 56):" and change to "elif errcode == 42:"
+# vi /usr/lib/python2.7/site-packages/urlgrabber/grabber.py 
+#  "elif errcode in (42, 55, 56):"
+...
+elif errcode == 42:
+#
+
+TimeZone-Change
+==================
+
+# timedatectl
+
+# timedatectl list-timezones|grep Kol
+# timedatectl set-timezone Asia/Kolkata
+
+# hwclock --systohc

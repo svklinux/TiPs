@@ -1,0 +1,20 @@
+Configure the DHCP server to listen only one device
+=================================================
+
+ If more than one network interface is attached to the system, but the DHCP server should only listen for DHCP requests on one of the interfaces, configure the DHCP server to listen only on that device. The DHCP daemon will only listen on interfaces for which it finds a subnet declaration in the /etc/dhcp/dhcpd.conf file.
+This is useful for a firewall machine with two network cards. One network card can be configured as a DHCP client to retrieve an IP address to the Internet. The other network card can be used as a DHCP server for the internal network behind the firewall. Specifying only the network card connected to the internal network makes the system more secure because users can not connect to the daemon via the Internet.
+To specify command-line options, copy and then edit the dhcpd.service file as the root user. For example, as follows:
+
+# cp /usr/lib/systemd/system/dhcpd.service /etc/systemd/system/
+# vi /etc/systemd/system/dhcpd.service
+
+Edit the line under section [Service]:
+
+ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf -user dhcpd -group dhcpd --no-pid your_interface_name(s)
+
+Then, as the root user, restart the service:
+
+# systemctl --system daemon-reload
+# systemctl restart dhcpd
+
+
