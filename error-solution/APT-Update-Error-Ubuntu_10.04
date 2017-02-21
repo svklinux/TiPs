@@ -1,0 +1,22 @@
+
+
+APT-update failed error on UBuntu 10.04
+=========================================
+
+
+Edit the /etc/apt/sources.list file with a text editor, 
+and wherever see the archive.ubuntu.com (the source of releases actively supported), 
+change it to old-releases.ubuntu.com 
+
+
+# vi /etc/apt/sources.list
+....
+:%s/archive.ubuntu/old-releases.ubuntu/g
+:wq!
+#
+
+
+
+
+
+

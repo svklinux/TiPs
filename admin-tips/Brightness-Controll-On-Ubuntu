@@ -1,0 +1,42 @@
+Brightness--Controll-On-Ubuntu
+============================
+
+Find the connected minitor name using xrandr (i.e,VGA1)
+Then set brightness from 0.1 to 1.0 
+
+$ xrandr
+$ xrandr --output VGA1 --brightness 0.7
+
+For autostart
+$ gnome-session-properties
+[Add StartupProgram]
+Name			---	Brightness-Control
+Command		---	xrandr --output VGA1 --brightness 0.7
+Comment		---    Reduce-Screen-Brightness
+[Add]
+
+This will create a File named xrandr.desktop in ~/.config/autostart/ Directory
+
+Reboot the system and check
+------------
+OR
+
+$sudo gedit /etc/rc.local
+# Add this before the last line “exit 0″:
+echo 4 > /sys/class/backlight/acpi_video0/brightness
+
+# reboot.
+---------
+OR
+
+# gedit /etc/default/grub
+
+#You will find this line in the new opened window:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+#Change it to:
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_backlight=vendor"
+Save and close the window and type this in the terminal:
+#
+#update-grub
+# reboot
+

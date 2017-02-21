@@ -1,0 +1,11 @@
+#  cat /etc/timezone 
+Etc/UTC
+root@ec2-52-20-205-78:~#  ls -l /etc/timezone
+-rw-r--r-- 1 root root 8 Jan 14  2016 /etc/timezone
+root@ec2-52-20-205-78:~# 
+
+# dpkg-reconfigure tzdata
+
+root@ec2-52-20-205-78:~#  cat /etc/timezone 
+Asia/Kolkata
+root@ec2-52-20-205-78:~# 

@@ -1,0 +1,41 @@
+
+Create a User WithOut Login through GUI
+=============================================
+
+User "-r" Option with useradd command
+
+# useradd -s /bin/bash -G sudo -m -r svk
+
+# passwd svk
+
+# su - svk
+
+$ sudo mkdir /usr/svk
+$ sudo chown -R svk: /usr/svk
+
+
+Create some special Command for that user to Run
+-------------------------------------------------
+
+$ cat .profile
+...
+# set PATH so it includes user's private bin directories
+PATH="/usr/svk:$HOME/bin:$HOME/.local/bin:$PATH"
+$
+
+
+$ cat /usr/svk/psql-aws 
+#!/bin/bash
+if [ -z $1 ]; then
+	psql -U svk -h odoo-pgsql-xxxxxxxxxx.rds.amazonaws.com
+else
+	psql -U svk -h odoo-pgsql-xxxxxxxxxx.rds.amazonaws.com -c $1
+fi
+$
+
+$ chmod +x /usr/svk/psql-aws 
+
+$ psql-aws 
+
+
+

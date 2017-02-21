@@ -1,0 +1,16 @@
+SystemBack Installation with GUI :
+===============================
+
+sudo add-apt-repository ppa:nemh/systemback
+sudo apt-get update
+sudo apt-get install systemback
+
+For Command Line (On-Server)
+==============================
+
+# apt-get install systemback-cli
+# systemback-cli   ------> with terminal gui
+
+===============================
+
+

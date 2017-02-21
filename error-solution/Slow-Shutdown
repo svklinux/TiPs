@@ -1,0 +1,12 @@
+Slow shutdown on Ubuntu 16.04 LTS (Stopping thermal daemon/running fit make remote CUPS printers)
+=======================================================================================
+
+
+a stop job is running for make remote CUPS printer available localy
+
+When shuting down, it has a time out of 1m 30s. Stopping this service cause the shutdown process to take only few seconds.
+
+So, I disabled it using this command line on Ubuntu Gnome 16.04:
+
+# systemctl disable cups-browsed.service
+

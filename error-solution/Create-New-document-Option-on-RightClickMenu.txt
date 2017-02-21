@@ -1,0 +1,9 @@
+“Create new document” - right-click option missing in Ubuntu GNOME
+================================================
+See if you have ~/Templates folder. Create one if it is missing.
+Now create an empty file from command prompt: touch ~/Templates/Text\ File.txt
+
+$ touch ~/Templates/Text\ File.txt
+
+"Create Document" option is back again and you can create a new text file or a new document.
+

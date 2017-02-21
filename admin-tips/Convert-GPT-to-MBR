@@ -1,0 +1,29 @@
+Convert a GPT HDD to MBR for Dual Boot
+=======================================
+
+To fix your problem, follow these steps:
+
+    	Boot from ubuntu 14.04 Live CD/Boot the emergency disk and open a text-mode shell.
+	Type gdisk /dev/sda (change /dev/sda to whatever is appropriate to access your hard disk, if necessary). 
+	The program is likely to complain that it's found both MBR and GPT data, and will ask which to use. It doesn't matter which you tell it to use.
+    	At the Command prompt, type x to enter the experts' menu.
+    	At the Expert command prompt, type z to zap (destroy) the GPT data.
+    	Type y in response to the confirmation about destroying the GPT.
+    	Type n in response to the query about blanking the MBR. Caution: If you answer y here, you'll destroy your Windows partition(s)!
+
+# parted -l           ---------> To Check the PArtition table Structure
+
+# apt-get install gdisk
+
+# disk /dev/sda
+...
+Command (? for help):x
+Expert Command (? for help):z
+About to wipeout GPT on /dev/sda Proceed? (Y/N):y
+	"GPT Data Structures Destroyed"
+Blank out MBR (Y/N):n
+	"MBR is unchanged"
+#
+
+# reboot
+

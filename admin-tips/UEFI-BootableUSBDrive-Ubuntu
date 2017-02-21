@@ -1,0 +1,26 @@
+Create Ubuntu-14.04-03 64bit UEFI Bootable Pendrive
+=============================================
+
+1.Create Bootable Pendrive
+----------------------------------------------------
+
+# apt-get install p7zip-full
+# sgdisk --zap-all /dev/sdb
+# sgdisk --new=1:0:0 --typecode=1:ef00 /dev/sdb
+# mkfs.vfat -F32 /dev/sdb1
+
+Run the following to check if Disklabel type is gpt and Type is EFI System
+
+# parted /dev/sdb
+(parted)print
+(parted)quit
+#
+
+# mount -t vfat /dev/sdb1 /mnt
+# 7z x /Data/ISO/ubuntu-16.04-desktop-amd64.iso -o/mnt/
+(Note--> no space between "-o" and "/mnt")
+
+Connect Pendrive on  uefi system and Install ubuntu 
+
+Note:----->Create EFI boot (/boot/efi)  partition while installing with size "500MB" and  type FAT32
+Otherwise grub install will fail so the ubuntu installation also...

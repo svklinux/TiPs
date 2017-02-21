@@ -1,0 +1,4 @@
+
+$ gsettings set org.gnome.nautilus.preferences executable-text-activation ask
+
+
