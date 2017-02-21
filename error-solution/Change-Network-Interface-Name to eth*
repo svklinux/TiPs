@@ -1,0 +1,33 @@
+Ever wanted to change back to the default network device name like "ethX"
+==================================================================
+
+This is based on VMware installation i have the default nic name as"en01677736"
+
+Add "net.ifnames=0 biosdevname=0” after "... rhgb quiet" to line starting with GRUB_CMDLINE_LINUX
+
+
+# vi /etc/default/grub
+...
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=”$(sed ‘s, release .*$,,g’ /etc/system-release)”
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT=”console”
+#### Add "net.ifnames=0 biosdevname=0” after "... rhgb quiet" ##########
+GRUB_CMDLINE_LINUX=”rd.lvm.lv=rootvg/usrlv rd.lvm.lv=rootvg/swaplv crashkernel=auto vconsole.keymap=us rd.lvm.lv=rootvg/rootlv vconsole.font=latarcyrheb-sun16 rhgb quiet net.ifnames=0 biosdevname=0”
+..
+#
+
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+# mv /etc/sysconfig/network-scripts/ifcfg-eno16777736 /etc/sysconfig/network-scripts/ifcfg-eth0
+
+# shutdown -r now
+
+=================================
+
+If device not detecing Remove device and reinsert
+
+
+
+

@@ -1,2 +1,6 @@
-# TiPs
-Server-TiPS
+
+# CentOS
+
+CentOS-Server-TiPS
+
+

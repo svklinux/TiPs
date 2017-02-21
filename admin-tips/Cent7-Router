@@ -1,0 +1,49 @@
+CentOS-7-As a router
+==========================
+
+External Interface(Public)	===	enp0s3
+Internal Interface(private)	===	enp0s8
+
+ Enable IPv4 packet forwarding.
+
+    Add the following to /etc/sysctl.conf: net.ipv4.ip_forward = 1
+    Apply the sysctl settings: sysctl -p
+
+Add direct rules to firewalld. Add the --permanent option to keep these rules across restarts.
+
+Direct Options
+       The direct options give a more direct access to the firewall. These options require user to know basic iptables concepts, i.e.  table
+       (filter/mangle/nat/...), chain (INPUT/OUTPUT/FORWARD/...), commands (-A/-D/-I/...), parameters (-p/-s/-d/-j/...) and targets (ACCEPT/DROP/REJECT/...).
+
+firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -o eth_ext -j MASQUERADE
+firewall-cmd --direct --add-rule ipv4 filter FORWARD 0 -i eth_int -o eth_ext -j ACCEPT
+firewall-cmd --direct --add-rule ipv4 filter FORWARD 0 -i eth_ext -o eth_int -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# vi /etc/sysctl.conf
+...
+net.ipv4.ip_forward = 1
+#
+
+# firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o enp0s3 -j MASQUERADE
+# firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i enp0s8 -o enp0s3 -j ACCEPT
+# firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i enp0s3 -o enp0s8 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+OR
+
+# firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -o eth0 -j MASQUERADE
+# firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i eth1 -o eth0 -j ACCEPT
+# firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i eth0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+List Rules
+
+# firewall-cmd --permanent --direct --get-all-rules
+
+# firewall-cmd --permanent --direct --get-rules ipv4 nat POSTROUTING 
+# firewall-cmd --permanent --direct --get-rules ipv4 filter FORWARD
+
+
+
+
+
