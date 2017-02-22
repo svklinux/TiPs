@@ -1,0 +1,33 @@
+Install-Win8.1-in-Pendrive-UEFI
+=============================
+
+
+    On-ComantPrompt
+	C:\> diskpart
+In the elevated command prompt, type the commands below one at a time and press Enter after each one. 
+
+	DISKPART> list disk
+
+Make note of the Disk # (ex: Disk 4) for the USB flash drive. (see screenshot below step 5)
+NOTE: Substitute # in the first command with the actual disk # from step 4 above. For example: select disk 4
+
+    DISKPART> select disk #
+    DISKPART> detail disk (this is to verify that you selected the correct disk before using "clean"
+    DISKPART> clean
+    DISKPART> create partition primary
+    DISKPART> format fs=fat32 quick
+    DISKPART> active
+    DISKPART> assign
+    DISKPART> list volume
+    DISKPART> exit
+
+Make note of the volume letter (ex: K) for the USB flash drive in the command prompt. 
+
+If Using a Windows 7 or Windows 8/8.1 Installation DVD
+
+A) Insert the Windows 7 or Windows 8 installation DVD into the CD/DVD drive.
+B) In the Computer window, open the DVD. (see screenshot below)
+C) Select all files in it, right click or press and hold on the selected files, click/tap on Send to and the Removable Disk for your USB flash drive letter (ex: K) from step 6 above. (see screenshot below)
+D) This could take a bit to copy the DVD contents to the USB.
+
+Now Boot the USB in UEFI mode

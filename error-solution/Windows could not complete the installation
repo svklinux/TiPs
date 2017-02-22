@@ -1,0 +1,29 @@
+
+Windows could not complete the installation
+================================================
+
+When prompted with error unable to complete installation:
+
+Hit SHIFT-F10 to bring up command prompt.
+
+type MMC
+Click File -> Add/Remove Snap-in... (Or CTRL+M)
+Select Computer Management (Double click and Finish on Local Computer)
+Click OK
+
+Double click Computer Management (Local) -> System Tools -> Local Users and Groups -> Users -> Double Click Administrator -> Uncheck Account is disabled -> OK
+Now right click Administrator -> Set Password...  ->  Set a decent password to get started.
+Now, restart.  Should be good to go.
+
+ 
+
+If this doesn't work try next step:
+SHIFT-F10 to bring up command prompt.
+type:  CD C:\windows\system32\oobe
+type msoobe
+enter
+Make a generic account and password.  
+hit finish (if it requests a product key and you have one, enter it now.  if OEM/No key required, just finish).  Set time/date.  Finish.
+Restart.
+
+
