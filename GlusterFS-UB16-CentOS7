@@ -1,0 +1,130 @@
+
+Setting up the GlusterFS Servers
+===================================
+
+Server1
+	OS	--CentOS7
+	Hostname--master
+	IP	---200.0.0.30
+Server2
+	OS	--Ubuntu16
+	Hostname--gserver
+	IP	---200.0.0.20
+	
+# cat /etc/hosts
+...
+200.0.0.20      gserver
+200.0.0.30      master
+200.0.0.31      minion1
+200.0.0.32      minion2
+#
+
+# yum -y install glusterfs-server
+# systemctl enable glusterd.service
+# systemctl start glusterd.service
+
+# add-apt-repository ppa:gluster/glusterfs-3.8
+# apt-get update
+# apt-get -y install glusterfs-server
+# systemctl status glusterfs-server.service
+
+
+On-Both-Server
+---------------
+
+# glusterfsd --version
+# mkdir -p /glfs/d1
+
+
+On-Server1(CentOS7)
+---------------
+
+# gluster peer probe gserver
+# gluster peer status
+
+# gluster volume create gstvol1 replica 2 transport tcp master:/glfs/d1 gserver:/glfs/d1 force
+
+---O/P--> volume create: gstvol1: success: please start the volume to access data
+
+# gluster volume start gstvol1
+volume start: gstvol1: success
+#
+
+# netstat -tap | grep glusterfsd --------> Check On Both Server 
+# gluster volume info  --------> Check On Both Server 
+ 
+Volume Name: gstvol1
+Type: Replicate
+Volume ID: 21bbc1f7-1645-47cf-b030-feb9987b3e71
+Status: Started
+Snapshot Count: 0
+Number of Bricks: 1 x 2 = 2
+Transport-type: tcp
+Bricks:
+Brick1: master:/glfs/d1
+Brick2: gserver:/glfs/d1
+Options Reconfigured:
+transport.address-family: inet
+performance.readdir-ahead: on
+nfs.disable: on
+# 
+
+# gluster pool list
+
+
+
+Setting Up the GlusterFS Client
+===================================
+
+node1 
+	Hostname---minion1
+	OS	---CentOS7
+	IP	---200.0.0.31
+node2 
+	Hostname---minion2
+	OS	---CentOS7
+	IP	---200.0.0.32
+
+Run-on-Both-Nodes
+------------------
+
+# yum -y install glusterfs-client
+# mkdir -p /glusterfs/d1
+
+
+# mount -t glusterfs master:/gstvol1 /glusterfs/d1
+
+Add below entry to /etc/fstab for automatically mounting during system boot.
+
+# vi /etc/fstab
+...
+master:/gstvol1 /glusterfs/d1 glusterfs  defaults,_netdev 0 0
+#
+
+# reboot
+
+[root@master ~]# netstat -tap | grep glusterfsd
+tcp        0      0 0.0.0.0:49152           0.0.0.0:*               LISTEN      2615/glusterfsd     
+tcp        0      0 master:49152            minion1:1020            ESTABLISHED 2615/glusterfsd     
+tcp        0      0 master:49152            master:49149            ESTABLISHED 2615/glusterfsd     
+tcp        0      0 master:49152            gserver:49146           ESTABLISHED 2615/glusterfsd     
+tcp        0      0 master:49150            master:24007            ESTABLISHED 2615/glusterfsd     
+tcp        0      0 master:49152            minion2:1020            ESTABLISHED 2615/glusterfsd     
+[root@master ~]#
+
+===================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
