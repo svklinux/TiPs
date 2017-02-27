@@ -1,0 +1,110 @@
+==============Ubuntu-Local-RePo(14-Feb-2015)=================
+					
+Create Local-Repository-UB-14.04
+-------------------------------------------------------------
+# apt-get install  dpkg-dev
+
+# mkdir -p /UB14-RePo/UB14/repo/local-repo/debfiles
+
+Copy All Packages to "/UB14-RePo/UB14/local-deb" Directory
+
+# cp /Deb/*.deb /UB14-RePo/UB14/repo/local-repo/debfiles
+
+# chown -R ubuntu: /UB14-RePo -----Optional
+
+# cd /UB14-RePo/UB14/
+
+# cd  /UB14-RePo/UB14/repo/local-repo
+# dpkg-scanpackages debfiles | gzip -9c > Packages.gz
+
+Create VitrualHost WebServer
+----------------------------------------------------------
+# apt-get install apache2
+
+#vi /etc/network/interface  ------>Virtual-IP
+...
+auto eth0:3
+iface eth0:3 inet static
+address 192.168.1.224
+netmask 255.255.255.0
+#
+
+# mkdir -p /UB14-RePo/Log
+# touch /UB14-RePo/Log/error-ub14repo.log
+# touch /UB14-RePo/Log/access-ub14repo.log
+# chmod -R 755 /UB14-RePo/Log
+
+# vi /etc/apache2/apache.conf
+...
+ServerName ubuntu
+<Directory /var/www/>
+	Options Indexes FollowSymLinks
+	AllowOverride None
+	Require all granted
+</Directory>
+...
+#
+
+# cd /etc/apache2/sites-available
+#vi ub-14-repo.conf
+<VirtualHost 192.168.1.224:80>
+<Directory /UB14-RePo/>
+	Options Indexes FollowSymLinks 
+	AllowOverride None
+	Require all granted
+</Directory>
+	ServerAdmin webmaster@svk.com
+	Servername ub-14-repo.svk.com
+	ServerAlias www.ub-14-repo.svk.com
+	DocumentRoot /UB14-RePo/
+	ErrorLog /UB14-RePo/Log/error-ub14repo.log
+	CustomLog /UB14-RePo/Log/access-ub14repo.log combined
+</VirtualHost>
+#
+
+# a2ensite ub-14-repo.conf
+# service apache2 reload
+
+=================================
+On-Client Machine
+
+# vi /etc/apt/sources.list
+...
+# Ubuntu-Local-Repo
+deb http://192.168.1.224/UB14/repo/local-repo  /
+# 
+
+# apt-get update
+=================================
+
+****************************************************************************
+****************************************************************************
+
+====================
+CentOS-Repo on Ubuntu
+====================
+
+# apt-get install createrepo
+
+# mkdir -p /UB14-RePo/CentOS/repo/local-repo/rpmfiles
+
+Copy RPM Packages to " /UB14-RePo/CentOS/repo/local-repo/rpmfiles" and run createrepo
+
+# createrepo /UB14-RePo/CentOS/repo/local-repo/
+
+
+On-Client
+----------------
+#vi /etc/yum.repos.d/local.repo 
+[L-CloudStack]
+name=Local-Cloudstack-Packages
+baseurl=http://192.168.1.224/CentOS/repo/local-repo/
+enabled=1
+gpgcheck=0
+#
+
+===============================
+
+
+
+
